@@ -1,0 +1,13 @@
+{% macro render_field(field) %}
+{{field.label}}
+<br>
+{{ field(**kwargs)|safe }}
+<br>
+{% if field.errors %}
+<div class="errors">
+{% for error in field.errors %}
+<p>{{error}}</p>
+{% endfor %}
+</div>
+{% endif %}
+{% endmacro %}

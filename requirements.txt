@@ -1,0 +1,5 @@
+flask
+flask-wtf
+email_validator
+passlib
+mysqlclient
