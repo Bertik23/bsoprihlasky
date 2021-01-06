@@ -13,4 +13,24 @@ def connection():
 def get(table, what, where, value):
     c, conn = connection()
     c.execute(f"SELECT {what} FROM {table} WHERE {where} = %s", [value])
-    return c.fetchall()
+    a = c.fetchall()
+    c.close()
+    conn.close()
+    gc.collect()
+    return a
+
+def checkForTable(table):
+    c, conn = connection()
+
+    c.execute("SHOW TABLES LIKE %s", [table])
+
+    r = c.fetchone()
+
+    c.close()
+    conn.close()
+    gc.collect()
+
+    if r:
+        return True
+    else:
+        return False

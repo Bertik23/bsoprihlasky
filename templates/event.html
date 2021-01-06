@@ -1,0 +1,37 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+    <table>
+        <tr><td>{{ event.sport }}</td></tr>
+        <tr><td>{{ event.discipline }}</td></tr>
+        <tr><td>{{ event.type }}</td></tr>
+        <tr><td>{{ event.name }}</td></tr>
+        <tr><td>{{ event.org }}</td></tr>
+        {% if event.id.startswith("ORIS") %}<tr><td><a href="https://oris.orientacnisporty.cz/Zavod?id={{ event.id[4:] }}" target="_blanc">WEB</a></td></tr>{% endif %}
+        <tr><td>{{ event.time_signup }}</td></tr>
+        <tr><td>{{ event.time_start }}</td></tr>
+        <tr><td>{{ event.place }}</td></tr>
+    </table>
+
+    <h4>Přihlášení</h4>
+    <br>
+    {% from "macros.jinja" import render_field %}
+    <form method=post action="/event/?id={{event.id}}">
+        <dl>
+            {{render_field(form.chip)}}
+            {{render_field(form.kat)}}
+            {{render_field(form.book)}}
+            {{render_field(form.to_organisator)}}
+            {% for radio in form.transport %}
+                {{render_field(radio)}}
+            {% endfor %}
+        </dl>
+        <p><input type=submit value='Přihlásit se'></p>
+    </form>
+    
+    {% if error %}
+        <p class="error"><strong>Error:</strong>{{error}}</p>
+    {% endif %}
+
+{% endblock %}

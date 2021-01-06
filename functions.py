@@ -15,3 +15,10 @@ def notLoggedInRedir():
 def login(userId):
     session["loggedIn"] = True
     session["userId"] = userId
+
+def listToLoT(l):
+    out = [(i,i) for i in l]
+    return out
+
+def addZerosTo(n, num):
+    return "0"*(n-len(str(num)))+str(num)

@@ -5,4 +5,28 @@
 {% block body %}
 <p>Přihlášen jako {{user.name}}</p>
 
+<table>
+    <tr>
+        <th>SPORT</th>
+        <th>DIS</th>
+        <th>TYP</th>
+        <th>NÁZEV</th>
+        <th>ORGANIZÁTOR</th>
+        <th>WEB</th>
+        <th>DO</th>
+        <th>START</th>
+    </tr>
+    {% for event in events %}
+        <tr>
+            <td>{{ event.sport }}</td>
+            <td>{{ event.discipline }}</td>
+            <td>{{ event.type }}</td>
+            <td><a href="{{url_for('site_event')}}?id={{event.id}}">{{ event.name }}</a></td>
+            <td>{{ event.org }}</td>
+            <td>{% if event.id.startswith("ORIS") %}<a href="https://oris.orientacnisporty.cz/Zavod?id={{ event.id[4:] }}" target="_blanc">WEB</a>{% endif %}</td>
+            <td>{{ event.time_signup }}</td>
+            <td>{{ event.time_start }}</td>
+        </tr>
+    {% endfor %}
+</table>
 {% endblock %}

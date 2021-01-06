@@ -3,3 +3,5 @@ flask-wtf
 email_validator
 passlib
 mysqlclient
+requests
+python-dateutil
