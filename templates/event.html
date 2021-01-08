@@ -23,9 +23,9 @@
             {{render_field(form.kat)}}
             {{render_field(form.book)}}
             {{render_field(form.to_organisator)}}
-            {% for radio in form.transport %}
-                {{render_field(radio)}}
-            {% endfor %}
+            {{render_field(form.transport)}}
+            <span id="with_transport">{{render_field(form.transport_with)}}</span>
+            <span id="offer_transport">{{render_field(form.transport_offer)}}</span>
         </dl>
         <p><input type=submit value='Přihlásit se'></p>
     </form>
@@ -33,5 +33,37 @@
     {% if error %}
         <p class="error"><strong>Error:</strong>{{error}}</p>
     {% endif %}
+
+    <table>
+    <tr>
+    {% for i in signedup[0] %}
+        <th>{{i}}</th>
+    {% endfor %}
+    </tr>
+    {% for user in signedup %}
+        <tr>
+            {% for i in user %}
+                <td>{{user[i]}}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+
+    <script>
+        function myFunction() {
+          let box_value = document.getElementById("transport").value;
+          if (box_value === "Spolujízda") {
+            document.getElementById("with_transport").style.display = "initial"
+            document.getElementById("offer_transport").style.display = "none"
+          } else if (box_value === "Nabízím") {
+            document.getElementById("with_transport").style.display = "none"
+            document.getElementById("offer_transport").style.display = "initial"
+          } else {
+            document.getElementById("with_transport").style.display = "none"
+            document.getElementById("offer_transport").style.display = "none"
+          }
+        }
+        myFunction()
+    </script>
 
 {% endblock %}

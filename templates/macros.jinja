@@ -1,13 +1,30 @@
 {% macro render_field(field) %}
-{{field.label}}
-<br>
-{{ field(**kwargs)|safe }}
-<br>
-{% if field.errors %}
-<div class="errors">
-{% for error in field.errors %}
-<p>{{error}}</p>
-{% endfor %}
-</div>
-{% endif %}
+    {{field.label}}
+    <br>
+    {{ field(**kwargs)|safe }}
+    <br>
+    {% if field.errors %}
+        <div class="errors">
+            {% for error in field.errors %}
+                <p>{{error}}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro render_fields_in_table(form) %}
+    <table>
+    {% for field in dir(form) %}
+        {% if field.startswith("event") %}
+            <tr>
+            <td>
+            {{ getattr(form, field)(**kwargs)|safe }}
+            </td>
+            {% for f in fields[field].fs %}
+                <td>{{f}}</td>
+            {% endfor %}
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
 {% endmacro %}

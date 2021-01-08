@@ -22,3 +22,10 @@ def listToLoT(l):
 
 def addZerosTo(n, num):
     return "0"*(n-len(str(num)))+str(num)
+
+def oneLineTable(*args):
+    out = "<table><tr>"
+    for i in args:
+        out += f"<td>{i}</td>"
+    out += "</tr></table>"
+    return out

@@ -1,0 +1,11 @@
+{% extends "header.html" %}
+
+{% block body %}
+{% from "macros.jinja" import render_field %}
+<form action="/addOrisEvent/" method="post">
+    <table>
+        {{render_field(form.events)}}
+    </table>
+<input type="submit" value="Přidat">
+</form>
+{% endblock %}
