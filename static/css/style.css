@@ -1,9 +1,95 @@
+:root{
+  --main: #222;
+  --darker-main: #111;
+  --error: #ff4040;
+  --success: rgb(38, 204, 46);
+}
+
+div.content{
+  margin-top: 15px;
+  padding-bottom: 43px;
+}
+
+div.page{
+  position: relative;
+  min-height: 100vh;
+}
+
 .container{
-    /*top: 50%;*/
-	left: 50%;
-    transform: translate(-75%,0);
-    /*width: 50% !important;*/
-	position: absolute;
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%,0);
+    position: absolute; */
+    /* display: flex;
+    justify-content: center; */
+    display: table;
+    margin: 0 auto;
+}
+
+
+body{
+  margin: 0;
+  font-family: Roboto;
+}
+
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--main);
+}
+
+nav li {
+  float: left;
+}
+
+nav li.right {
+  float: right
+}
+
+nav li a, nav .dropbtn {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+nav li a:hover, .dropdown:hover .dropbtn{
+  background-color: var(--darker-main);
+}
+
+nav li.dropdown {
+  display: inline-block;
+}
+
+nav .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 100px;
+  right: 0;
+  width: inherit;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+nav .dropdown-content a, nav .dropdown-content p {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  margin: 0;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 table {
@@ -12,3 +98,84 @@ table {
 table, th, td {
     border: 1px solid black;
   }
+
+.flashes-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,0);
+  z-index: 99;
+}
+
+  /* The alert message box */
+.flashes {
+  margin: 5px;
+
+  padding: 20px;
+  color: white;
+  margin-bottom: 15px;
+  background-color: #333;
+  box-shadow: 3px 3px 3px #999;
+  /*z-index: 99;*/
+}
+
+.error {
+  background-color: var(--error);
+}
+
+.success {
+  background-color: var(--success);
+  color: var(--darker-main);
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}
+
+ul.radio {
+  list-style-type: none;
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.radio li{
+  float: left;
+  list-style: none;
+}
+
+.radio li::marker{
+  display: none;
+}
+
+.footer {
+  /* clear: both; */
+  position: absolute;
+  width: 100%;
+  height: 43px;
+  bottom: 0;
+
+  background-color: var(--main);
+  color: white;
+  text-align: center;
+}
+

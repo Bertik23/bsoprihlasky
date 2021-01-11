@@ -7,17 +7,51 @@
     <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
 </head>
 
-<body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <ul class=flashes>
-      {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
+<style>
+  .flashes {
+    opacity: 1;
+    transition: opacity 6s; /* 600ms to fade out */
+  }
+  </style>
 
+<body>
+<div class="page">
+  <nav>
+    <ul class="nav">
+      {% if user != None %}
+        <li><a href="/">Home</a></li>
+        {% if user.auth == 0 %}
+          <li><a href="/addOrisEvent/">Přidat Závod z Orisu</a></li>
+        {% endif %}
+        <li class="dropdown right"><a href="javascrip:void(0)">Uživatel</a>
+          <div class="dropdown-content">
+            <p>{{ user.name }}</p>
+            <a href="/user-settings/">Nastavení</a>
+            <a href="/logout/">Odhlásit se</a>
+          </div>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes-list">
+    {% for category, message in messages %}
+      <div class="flashes {{ category }}">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          {{ message }}
+      </div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<div class="content">
 {% block body %}
 {% endblock%}
+</div>
+<div class="footer">
+  <p style="text-align: center;">Made by Bertik23</p>
+</div>
+</div>
 </body>

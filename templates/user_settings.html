@@ -1,0 +1,13 @@
+{% extends "header.html" %}
+
+{% block body %}
+<div class="container">
+    <form action="/user-settings/" method="post">
+        {% from "macros.jinja" import render_field %}
+        {{render_field(form.birth)}}
+        {{render_field(form.sex)}}
+        {{render_field(form.email)}}
+        <input type="submit" value="Uložit">
+    </form>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from wtforms import Form, validators, TextField, PasswordField, SelectField, SelectMultipleField, RadioField
+from wtforms import widgets
 from wtforms.fields.core import BooleanField, FieldList
-from wtforms.fields.html5 import DateTimeLocalField, IntegerField, EmailField
+from wtforms.fields.html5 import DateTimeLocalField, IntegerField, EmailField, DateField
 from wtforms.widgets import CheckboxInput, ListWidget, TableWidget, html_params
 from functions import listToLoT
 import datetime
@@ -19,7 +20,7 @@ def select_multi_checkbox(field, ul_class='', **kwargs):
     html.append(u'</ul>')
     return u''.join(html)
 
-def table(field, class_='', **kwargs):
+def addOrisTable(field, class_='', **kwargs):
     kwargs.setdefault('type', 'checkbox')
     field_id = kwargs.pop("id", field.id)
     html = []
@@ -29,7 +30,8 @@ def table(field, class_='', **kwargs):
         if checked:
             options['checked'] = 'checked'
         html.append(u'<tr><td><input %s /></td>' % html_params(**options))
-        html.append(u"<td>%s</td></tr>" % label)
+        html.append(u"<td>%s</td><td>" % label)
+        html.append(f"<input type='datetime-local' name='time_{value}'</td></tr>")
     return u''.join(html)
 
 class RegistrationForm(Form):
@@ -58,13 +60,19 @@ class AddCustomEventForm(Form):
     kat = TextField("Kategorie (oddělit čárkou)")
 
 class AddOrisEventForm(Form):
-    events = SelectMultipleField(label="Strany:", validators=[validators.Optional()], choices = [], option_widget=CheckboxInput(), widget=table)#prefix_label=False))
+    events = SelectMultipleField("",validators=[validators.Optional()], choices = [], option_widget=CheckboxInput(), widget=addOrisTable)#prefix_label=False))
     
 class EventSignupForm(Form):
     chip = IntegerField("Chip")
     kat = SelectField("Kategorie", choices=[], validate_choice=False)
+    stages = SelectMultipleField("Etapy", choices=[str(i) for i in range(1,20)], validators=[validators.Required()], widget=select_multi_checkbox, validate_choice=False)
     transport = SelectField("Doprava", choices=["Samostatně","Spolujízda","Nabízím"], render_kw={'onchange': "myFunction()"})
-    transport_with = SelectField("Spolujízda s", choices=[], validators=[validators.Optional()])
+    transport_with = SelectField("Spolujízda s", choices=[], validators=[validators.Optional()], validate_choice=False)
     transport_offer = IntegerField("Nabízím", validators=[validators.Optional()])
     book = TextField("Poznámka do knihy")
     to_organisator = TextField("Zpráva organizátorovi")
+
+class UserSettingsForm(Form):
+    birth = DateField("Datum Narození")
+    sex = RadioField("Pohlaví", choices=[("M", "Muž"), ("F", "Žena")], widget=ListWidget(html_tag="ul"), render_kw={"class": "radio"})
+    email = EmailField("Email", validators=[validators.Email()])

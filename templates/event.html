@@ -1,7 +1,7 @@
 {% extends "header.html" %}
 
 {% block body %}
-
+<div class="container">
     <table>
         <tr><td>{{ event.sport }}</td></tr>
         <tr><td>{{ event.discipline }}</td></tr>
@@ -13,7 +13,8 @@
         <tr><td>{{ event.time_start }}</td></tr>
         <tr><td>{{ event.place }}</td></tr>
     </table>
-
+</div>
+<div class="container">
     <h4>Přihlášení</h4>
     <br>
     {% from "macros.jinja" import render_field %}
@@ -21,19 +22,23 @@
         <dl>
             {{render_field(form.chip)}}
             {{render_field(form.kat)}}
+            {% if form.stages.choices != [] %}
+                {{render_field(form.stages)}}
+            {% endif %}
             {{render_field(form.book)}}
             {{render_field(form.to_organisator)}}
             {{render_field(form.transport)}}
             <span id="with_transport">{{render_field(form.transport_with)}}</span>
             <span id="offer_transport">{{render_field(form.transport_offer)}}</span>
         </dl>
-        <p><input type=submit value='Přihlásit se'></p>
+        <p><input type=submit value={% if user_signedup %}"Upravit"{% else %}'Přihlásit se'{% endif %}></p>
     </form>
+</div>
     
     {% if error %}
         <p class="error"><strong>Error:</strong>{{error}}</p>
     {% endif %}
-
+<div class="container">
     <table>
     <tr>
     {% for i in signedup[0] %}
@@ -65,5 +70,5 @@
         }
         myFunction()
     </script>
-
+</div>
 {% endblock %}

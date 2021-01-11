@@ -5,11 +5,18 @@ from MySQLdb import escape_string as thwart
 from classes import Dummy
 import datetime
 
-def getEventList(**kwargs):
+def getEventList(showStages = False ,**kwargs):
     params = dict(format="json", method="getEventList", **kwargs)
     r = requests.get("https://oris.orientacnisporty.cz/API/", params=params)
     #print(r.url)
-    return r.json()
+    out = r.json()["Data"]
+    if not showStages:
+        a = {}
+        for event in out:
+            if out[event]["Level"]["ShortName"] != "E":
+                a[event] = out[event]
+        return a
+    return out
 
 def getOrisEvent(id, **kwargs):
     params = dict(format="json", method="getEvent", id=id, **kwargs)
@@ -35,6 +42,8 @@ def addEvent(event):
 
     if type(event) == Dummy:
         x = c.execute("SELECT * FROM events WHERE id = %s", [thwart(str(event.id))])
+    elif type(event) == dict:
+        x = c.execute("SELECT * FROM events WHERE id = %s", [thwart(str(event["id"]))])
     else:
         x = c.execute("SELECT * FROM events WHERE id = %s", [thwart(str(event))])
 
@@ -44,6 +53,10 @@ def addEvent(event):
         if type(event) == Dummy:
             c.execute("INSERT INTO events (id, time_signup, time_presentation, time_start, costAdult, costChild, name, org, place, type, discipline, kat, sport) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                             (thwart(event.id), thwart(str(event.time_signup)), thwart(str(event.time_presentation)), thwart(str(event.time_start)), thwart(str(event.costAdult)), event.costChild, thwart(str(event.name)), thwart(str(event.org)), thwart(str(event.place)), thwart(str(event.typ)), thwart(str(event.discipline)), thwart(str(event.kat)), thwart(event.sport)))
+        elif type(event) == dict:
+            s = ",".join(event.keys())
+            s2 = ",".join([r"%s" for i in event.values()])
+            c.execute("INSERT INTO events ("+ s +f") VALUES ({s2})", event.values())
         else:
             c.execute("INSERT INTO events (id) VALUES (%s)", [thwart(event)])
 
@@ -115,7 +128,6 @@ def getEvent(id):
                 for class_ in orisEvent["Classes"]:
                     event["kat"].append(orisEvent["Classes"][class_]["ClassDefinition"]["Name"])
                 event["kat"] = ",".join(event["kat"])
-
         return event
     else:
         return None

@@ -2,10 +2,18 @@
 
 {% block body %}
 {% from "macros.jinja" import render_field %}
+<div class="container">
 <form action="/addOrisEvent/" method="post">
     <table>
+        <tr>
+            <th></th>
+            <th>Datum</th>
+            <th>Jméno závodu</th>
+            <th>Čas uzávěrky</th>
+        </tr>
         {{render_field(form.events)}}
     </table>
 <input type="submit" value="Přidat">
 </form>
+</div>
 {% endblock %}
